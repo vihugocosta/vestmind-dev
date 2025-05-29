@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="overscroll-behavior-none">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VestMind</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* CSS Variables for Theming */
+    :root {
+      --background-primary: #0f172a; /* gray-900 */
+      --background-secondary: #1e293b; /* gray-800 */
+      --background-tertiary: #334155; /* gray-700 */
+      --background-interactive: #475569; /* gray-600 */
+      --background-interactive-hover: #64748b; /* gray-500 */
+      --background-card: #1e293b; /* gray-800 */
+      --background-nav: #172030; /* gray-850 */
+      --background-input: #334155; /* gray-700 */
+
+      --text-primary: #e2e8f0; /* gray-200 */
+      --text-secondary: #94a3b8; /* gray-400 */
+      --text-tertiary: #64748b; /* gray-500 */
+      --text-interactive-hover: #f8fafc; /* gray-50 */
+      --text-white: #ffffff;
+      --text-black: #000000;
+
+      --accent-primary: #2dd4bf; /* teal-400 */
+      --accent-primary-hover: #14b8a6; /* teal-500 */
+      --accent-secondary: #14b8a6; /* teal-500 */
+      --accent-secondary-hover: #0d9488; /* teal-600 */
+      
+      --border-primary: #334155; /* gray-700 */
+      --border-secondary: #475569; /* gray-600 */
+      --border-interactive-focus: var(--accent-primary);
+
+      --error-primary: #f43f5e; /* rose-500 */
+      --error-secondary: #e11d48; /* rose-600 */
+      --error-text: #ffe4e6; /* rose-100 */
+      --error-background-light: rgba(244, 63, 94, 0.1);
+
+      --shadow-color: rgba(0,0,0,0.3);
+      --shadow-color-stronger: rgba(0,0,0,0.4);
+      --shadow-color-inset: rgba(0,0,0,0.06);
+      --shadow-color-accent: rgba(20, 184, 166, 0.35); /* teal-500 */
+    }
+
+    html.theme-light {
+      --background-primary: #f8fafc; /* gray-50 */
+      --background-secondary: #f1f5f9; /* gray-100 */
+      --background-tertiary: #e2e8f0; /* gray-200 */
+      --background-interactive: #cbd5e1; /* gray-300 */
+      --background-interactive-hover: #94a3b8; /* gray-400 */
+      --background-card: #ffffff;
+      --background-nav: #eef2f7; 
+      --background-input: #e2e8f0; /* gray-200 */
+
+      --text-primary: #0f172a; /* gray-900 */
+      --text-secondary: #475569; /* gray-600 */
+      --text-tertiary: #64748b; /* gray-500 */
+      --text-interactive-hover: #020617; /* gray-950 */
+
+      --accent-primary: #14b8a6; /* teal-500 */
+      --accent-primary-hover: #0d9488; /* teal-600 */
+      --accent-secondary: #0d9488; /* teal-600 */
+      --accent-secondary-hover: #0f766e; /* teal-700 */
+
+      --border-primary: #cbd5e1; /* gray-300 */
+      --border-secondary: #94a3b8; /* gray-400 */
+      
+      --error-primary: #e11d48; /* rose-600 */
+      --error-secondary: #be123c; /* rose-700 */
+      --error-text: #881337; /* rose-900 */
+      --error-background-light: rgba(225, 29, 72, 0.1);
+
+      --shadow-color: rgba(0,0,0,0.08);
+      --shadow-color-stronger: rgba(0,0,0,0.1);
+      --shadow-color-inset: rgba(0,0,0,0.04);
+      --shadow-color-accent: rgba(20, 184, 166, 0.25);
+    }
+
+    html.theme-high-contrast {
+      --background-primary: #000000;
+      --background-secondary: #111111;
+      --background-tertiary: #222222;
+      --background-interactive: #333333;
+      --background-interactive-hover: #555555;
+      --background-card: #0a0a0a;
+      --background-nav: #000000;
+      --background-input: #222222;
+
+      --text-primary: #ffffff;
+      --text-secondary: #eeeeee;
+      --text-tertiary: #bbbbbb;
+      --text-interactive-hover: #ffff00; /* Yellow for high visibility */
+
+      --accent-primary: #00ffff; /* Bright Cyan */
+      --accent-primary-hover: #00dddd;
+      --accent-secondary: #ffff00; /* Bright Yellow */
+      --accent-secondary-hover: #dddd00;
+      
+      --border-primary: #666666;
+      --border-secondary: #888888;
+      --border-interactive-focus: var(--accent-secondary);
+
+      --error-primary: #ff5555; /* Bright red */
+      --error-secondary: #ff0000;
+      --error-text: #000000; /* Black text on bright error bg */
+      --error-background-light: #ff5555;
+
+      --shadow-color: rgba(255,255,255,0.2);
+      --shadow-color-stronger: rgba(255,255,255,0.3);
+      --shadow-color-inset: rgba(255,255,255,0.1);
+      --shadow-color-accent: rgba(0, 255, 255, 0.5);
+    }
+
+    /* Font Size Scaling */
+    html.font-scale-sm { font-size: 87.5%; } /* Approx 14px if base is 16px */
+    html.font-scale-md { font-size: 100%; }   /* Default 16px */
+    html.font-scale-lg { font-size: 112.5%; } /* Approx 18px */
+    html.font-scale-xl { font-size: 125%; }   /* Approx 20px */
+    
+    body {
+      background-color: var(--background-primary);
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Custom scrollbar for webkit browsers */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--background-secondary);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--background-interactive);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--background-interactive-hover);
+    }
+    
+    /* Ensure prose adapts */
+    .prose {
+      color: var(--text-secondary);
+    }
+    .prose h1, .prose h2, .prose h3, .prose h4, .prose strong, .prose b {
+      color: var(--text-primary);
+    }
+    .prose code {
+      color: var(--accent-primary);
+      background-color: var(--background-tertiary);
+      padding: 0.1em 0.3em;
+      border-radius: 0.25rem;
+    }
+    .prose a {
+      color: var(--accent-secondary);
+    }
+    .prose blockquote {
+      border-left-color: var(--border-secondary);
+      color: var(--text-tertiary);
+    }
+    .prose thead {
+      border-bottom-color: var(--border-primary);
+    }
+    .prose tbody tr {
+      border-bottom-color: var(--border-secondary);
+    }
+    .prose ul > li::marker {
+      color: var(--text-tertiary);
+    }
+     /* Tailwind Typography prose-invert adjustments */
+    .prose-invert {
+      --tw-prose-body: var(--text-primary);
+      --tw-prose-headings: var(--text-white, #fff); /* Keep white for dark or high contrast headings if prose-invert is used */
+      --tw-prose-lead: var(--text-secondary);
+      --tw-prose-links: var(--accent-secondary);
+      --tw-prose-bold: var(--text-white, #fff);
+      --tw-prose-counters: var(--text-secondary);
+      --tw-prose-bullets: var(--border-secondary);
+      --tw-prose-hr: var(--border-primary);
+      --tw-prose-quotes: var(--text-primary);
+      --tw-prose-quote-borders: var(--border-secondary);
+      --tw-prose-captions: var(--text-tertiary);
+      --tw-prose-code: var(--accent-primary);
+      --tw-prose-pre-code: var(--text-primary);
+      --tw-prose-pre-bg: var(--background-tertiary);
+      --tw-prose-th-borders: var(--border-primary);
+      --tw-prose-td-borders: var(--border-secondary);
+    }
+    html.theme-light .prose-invert { /* Adjust prose-invert for light theme if it was explicitly used */
+      --tw-prose-body: var(--text-primary);
+      --tw-prose-headings: var(--text-black, #000);
+      --tw-prose-bold: var(--text-black, #000);
+      /* ... other vars if needed */
+    }
+
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script>
+  tailwind.config = {
+    // darkMode: 'class', // We'll manage theme classes manually for more control over three themes
+    theme: {
+      extend: {
+        colors: {
+          // Old palette can be kept for reference or specific non-themed elements
+          // Or completely replaced by semantic theme colors if all elements are themed
+          gray: { 
+            50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8',
+            500: '#64748b', 600: '#475569', 700: '#334155', 750: '#273344', 800: '#1e293b',
+            850: '#172030', 900: '#0f172a', 950: '#020617'
+          },
+          teal: {
+            50: '#f0fdfa', 100: '#ccfbf1', 200: '#99f6e4', 300: '#5eead4', 400: '#2dd4bf',
+            500: '#14b8a6', 600: '#0d9488', 700: '#0f766e', 800: '#115e59', 900: '#134e4a', 950: '#042f2e'
+          },
+          rose: {
+            50: '#fff1f2', 100: '#ffe4e6', 200: '#fecdd3', 300: '#fda4af', 400: '#fb7185',
+            500: '#f43f5e', 600: '#e11d48', 700: '#be123c', 800: '#9f1239', 900: '#881337', 950: '#4c0519'
+          },
+
+          // Semantic theme colors using CSS Variables
+          'theme-bg-primary': 'var(--background-primary)',
+          'theme-bg-secondary': 'var(--background-secondary)',
+          'theme-bg-tertiary': 'var(--background-tertiary)',
+          'theme-bg-card': 'var(--background-card)',
+          'theme-bg-nav': 'var(--background-nav)',
+          'theme-bg-input': 'var(--background-input)',
+          'theme-bg-interactive': 'var(--background-interactive)',
+          'theme-bg-interactive-hover': 'var(--background-interactive-hover)',
+
+          'theme-text-primary': 'var(--text-primary)',
+          'theme-text-secondary': 'var(--text-secondary)',
+          'theme-text-tertiary': 'var(--text-tertiary)',
+          'theme-text-interactive-hover': 'var(--text-interactive-hover)',
+          'theme-text-white': 'var(--text-white)',
+          'theme-text-black': 'var(--text-black)',
+          
+          'theme-accent-primary': 'var(--accent-primary)',
+          'theme-accent-primary-hover': 'var(--accent-primary-hover)',
+          'theme-accent-secondary': 'var(--accent-secondary)',
+          'theme-accent-secondary-hover': 'var(--accent-secondary-hover)',
+          
+          'theme-border-primary': 'var(--border-primary)',
+          'theme-border-secondary': 'var(--border-secondary)',
+          'theme-border-interactive-focus': 'var(--border-interactive-focus)',
+
+          'theme-error-primary': 'var(--error-primary)',
+          'theme-error-secondary': 'var(--error-secondary)',
+          'theme-error-text': 'var(--error-text)',
+          'theme-error-background-light': 'var(--error-background-light)',
+        },
+        fontFamily: {
+          sans: ['Inter', 'sans-serif'],
+        },
+        borderRadius: {
+          'lg': '0.5rem', 'xl': '0.75rem', '2xl': '1rem',
+        },
+        boxShadow: {
+          'lg': '0 10px 15px -3px var(--shadow-color), 0 4px 6px -4px var(--shadow-color)',
+          'xl': '0 20px 25px -5px var(--shadow-color-stronger), 0 8px 10px -6px var(--shadow-color)',
+          '2xl': '0 25px 50px -12px var(--shadow-color-stronger)',
+          'inner-lg': 'inset 0 2px 4px 0 var(--shadow-color-inset)',
+          'teal-glow-sm': '0 0 8px 0px var(--shadow-color-accent)',
+          'teal-glow-md': '0 0 15px 2px var(--shadow-color-accent)',
+        },
+        animation: {
+          fadeIn: 'fadeIn 0.5s ease-out forwards',
+          fadeInScaleUp: 'fadeInScaleUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+          slideInUp: 'slideInUp 0.5s ease-out forwards',
+        },
+        keyframes: {
+          fadeIn: { 'from': { opacity: '0', transform: 'translateY(8px)' }, 'to': { opacity: '1', transform: 'translateY(0)' }, },
+          fadeInScaleUp: { 'from': { opacity: '0', transform: 'scale(0.98) translateY(10px)' }, 'to': { opacity: '1', transform: 'scale(1) translateY(0)' }, },
+          slideInUp: { 'from': { opacity: '0', transform: 'translateY(20px)' }, 'to': { opacity: '1', transform: 'translateY(0)'} }
+        },
+        animationDelay: { '100': '100ms', '150': '150ms', '200': '200ms', '250': '250ms', '300': '300ms', '400': '400ms', '500': '500ms', }
+      }
+    },
+    plugins: [
+      function({ addUtilities, theme }) {
+        const newUtilities = {};
+        const delays = theme('animationDelay');
+        if (delays) {
+          Object.keys(delays).forEach(key => {
+            newUtilities[`.animation-delay-${key}`] = { 'animation-delay': delays[key], };
+          });
+        }
+        addUtilities(newUtilities);
+      },
+      // Removed: require('@tailwindcss/typography'), as it's not functional here
+      // and custom prose styles are already in place.
+    ],
+  }
+</script>
+<script>
+  // Load accessibility preferences early to avoid FOUC
+  (function() {
+    try {
+      const settings = JSON.parse(localStorage.getItem('vestmind-accessibility-settings'));
+      if (settings) {
+        if (settings.theme) {
+          if (settings.theme === 'light') document.documentElement.classList.add('theme-light');
+          else if (settings.theme === 'dark') document.documentElement.classList.remove('theme-light', 'theme-high-contrast'); // Default is dark
+          // System preference can be handled by media query or default to dark/light
+        }
+        // High contrast settings should be applied after theme, as it might override.
+        if (settings.highContrast === 'on') {
+          document.documentElement.classList.add('theme-high-contrast');
+          // If high contrast is on, it defines its own palette and should override light/dark.
+          // Ensure theme-light is removed if high-contrast is on.
+          document.documentElement.classList.remove('theme-light'); 
+        }
+        if (settings.fontSize) {
+          document.documentElement.classList.add(`font-scale-${settings.fontSize}`);
+        } else {
+          document.documentElement.classList.add('font-scale-md'); // Default if nothing set
+        }
+      } else {
+        document.documentElement.classList.add('font-scale-md'); // Default font size
+         // Default to dark theme (no class needed as :root is dark)
+      }
+    } catch (e) {
+      console.error('Error loading accessibility settings:', e);
+      document.documentElement.classList.add('font-scale-md');
+       // Default to dark theme in case of error
+    }
+  })();
+</script>
+
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.6.1",
+    "@google/genai": "https://esm.sh/@google/genai@^1.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "@tailwindcss/typography": "https://esm.sh/@tailwindcss/typography@^0.5.13"
+  }
+}
+</script>
+</head>
+<body class="overscroll-behavior-none">
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html><link rel="stylesheet" href="index.css">
+<script src="index.tsx" type="module"></script>

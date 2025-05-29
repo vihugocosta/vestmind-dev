@@ -1,0 +1,6 @@
+{
+  "name": "VestMind",
+  "description": "Uma aplicação para interagir com as capacidades de bate-papo do Gemini e acessar documentos de prova em PDF. Apresenta uma interface de bate-papo em tempo real e uma seção para visualização de links de PDF.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
